@@ -26,7 +26,9 @@ def init_weight(length):
     # for i in range(35):
     #     table.get_sheet_by_name(str(number)).cell(row=i+1, column=1).value = np.random.random()
     # table.save(filename=table_file)
-    weight = 2 * np.random.rand(length).T - 1
+    weight = []
+    for i in range(length):
+        weight.append(np.random.randint(-1, 1))
     return weight
 
 
@@ -47,6 +49,6 @@ def write_weight(number, weight):
 def read_target(number):
     table = load_workbook(table_target_file)
     target = []
-    for i in range(9):
+    for i in range(10):
         target.append(table.get_sheet_by_name(str(1)).cell(row=i+1, column=number+1).value)
     return target
