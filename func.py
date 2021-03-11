@@ -5,7 +5,7 @@ table_file = '../number_weight.xlsx'
 table_target_file = '../number_target.xlsx'
 
 
-# Активационная функция
+# Активационная функция (ступенчатая функция)
 def activation_fun(net_y, h):
     if net_y > h:
         return 1
@@ -22,28 +22,10 @@ def net(x, w):
 
 
 def init_weight(length):
-    # table = load_workbook(table_file)
-    # for i in range(35):
-    #     table.get_sheet_by_name(str(number)).cell(row=i+1, column=1).value = np.random.random()
-    # table.save(filename=table_file)
     weight = []
     for i in range(length):
         weight.append(np.random.randint(-1, 1))
     return weight
-
-
-def read_weight(number):
-    wights = []
-    table = load_workbook(table_file)
-    for i in range(35):
-        wights.append(table.get_sheet_by_name(str(number)).cell(row=i+1, column=1).value)
-    return wights
-
-
-def write_weight(number, weight):
-    table = load_workbook(table_file)
-    for i in range(35):
-        table.get_sheet_by_name(str(number)).cell(row=i+1, column=1).value = weight[i]
 
 
 def read_target(number):
