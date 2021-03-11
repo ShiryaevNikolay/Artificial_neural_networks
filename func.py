@@ -1,16 +1,14 @@
-from openpyxl import load_workbook
 import numpy as np
-
-table_file = '../number_weight.xlsx'
-table_target_file = '../number_target.xlsx'
+from openpyxl import *
 
 
 # Активационная функция (ступенчатая функция)
 def activation_fun(net_y, h):
-    if net_y > h:
-        return 1
-    elif net_y <= h:
-        return 0
+    # if net_y > h:
+    #     return 1
+    # elif net_y <= h:
+    #     return 0
+    return 1 / (1 + np.exp(-net_y))
 
 
 # функция NET
@@ -28,9 +26,20 @@ def init_weight(length):
     return weight
 
 
-def read_target(number):
-    table = load_workbook(table_target_file)
-    target = []
-    for i in range(10):
-        target.append(table.get_sheet_by_name(str(1)).cell(row=i+1, column=number+1).value)
-    return target
+def weight_sheet_exist(id_perceptron, weight_file_path="../number_weight"):
+    exist = False
+    weight_file = load_workbook(weight_file_path)
+    if str(id_perceptron) in weight_file.sheetnames:
+        exist = True
+    weight_file.close()
+    return exist
+
+def cell_empty(id_perceptron, h_file_path="../number_h"):
+    is_empty = True
+    h_file = load_workbook(h_file_path)
+    sheet = h_file.get_sheet_by_name("h")
+    if sheet.cell(row=id_perceptron + 1, column=1).value:
+        is_empty = False
+    h_file.save(h_file_path)
+    h_file.close()
+    return is_empty
