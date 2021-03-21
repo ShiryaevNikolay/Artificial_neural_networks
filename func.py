@@ -4,11 +4,11 @@ from openpyxl import *
 
 # Активационная функция (ступенчатая функция)
 def activation_fun(net_y, h):
-    # if net_y > h:
-    #     return 1
-    # elif net_y <= h:
-    #     return 0
-    return 1 / (1 + np.exp(-net_y))
+    if net_y > h:
+        return 1
+    elif net_y <= h:
+        return 0
+    # return 1 / (1 + np.exp(-net_y))
 
 
 # функция NET
@@ -34,6 +34,7 @@ def weight_sheet_exist(id_perceptron, weight_file_path="../number_weight"):
     weight_file.close()
     return exist
 
+
 def cell_empty(id_perceptron, h_file_path="../number_h"):
     is_empty = True
     h_file = load_workbook(h_file_path)
@@ -43,3 +44,13 @@ def cell_empty(id_perceptron, h_file_path="../number_h"):
     h_file.save(h_file_path)
     h_file.close()
     return is_empty
+
+
+def add_noise(x, count=0):
+    noise = np.random.randint(0, len(x), size=count)
+    for i in noise:
+        if x[i] == 0:
+            x[i] = 1
+        elif x[i] == 1:
+            x[i] = 0
+    return x
