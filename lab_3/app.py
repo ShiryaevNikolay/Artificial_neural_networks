@@ -1,14 +1,12 @@
-from pynput import mouse
 from tkinter import *
+import math
 
 
 class App(Tk):
 
     def __init__(self):
         super().__init__()
-        self.mouse_press_left = False
-        self.mouse_press_right = False
-
+        self.pixels = []
         self.title("Network")
 
         self.w = 28
@@ -26,34 +24,23 @@ class App(Tk):
 
     def createPixels(self):
         for i in range(self.w):
+            self.pixels.append([])
             for j in range(self.h):
-                tag = "{}x{}".format(i, j)
-                print(tag)
-                self.c.create_rectangle(
+                self.pixels[i].append(self.c.create_rectangle(
                     i * self.scale, j * self.scale,
                     i * self.scale + self.scale, j * self.scale + self.scale,
-                    fill="white",
-                    tags=("pixel", tag)
-                )
+                    fill="white"
+                ))
 
     def mouseMoveB1(self, event):
-        self.paint(int(event.x / self.scale), int(event.y / self.scale))
+        self.paint(math.floor(event.x / self.scale), math.floor(event.y / self.scale))
 
     def mouseMoveB3(self, event):
-        self.paint(int(event.x / self.scale), int(event.y / self.scale))
+        self.paint(math.floor(event.x / self.scale), math.floor(event.y / self.scale), "white")
 
-    def mouseListener(self):
-        with mouse.Listener(
-            on_click=self.onClick
-        ) as listener:
-            listener.join()
-
-    def paint(self, x, y):
-        # print(self.c.find_overlapping(event.x - 0.5, event.y - 0.5, event.x + 0.5, event.y + 0.5)[-1])
-
-        main_rec_tag = "{}x{}".format(x, y)
-        print(main_rec_tag)
-        self.c.itemconfigure(main_rec_tag, fill="blue")
+    def paint(self, x, y, color="blue"):
+        print(x, y)
+        self.c.itemconfigure(self.pixels[x][y], fill=color)
 
     # def paint(self, event):
     #     inputs = [0 for i in range(784)]
