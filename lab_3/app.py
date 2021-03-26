@@ -1,6 +1,5 @@
 from pynput import mouse
 from tkinter import *
-import threading
 
 
 class App(Tk):
@@ -9,8 +8,6 @@ class App(Tk):
         super().__init__()
         self.mouse_press_left = False
         self.mouse_press_right = False
-        self.mx = 0
-        self.my = 0
 
         self.title("Network")
 
@@ -19,36 +16,44 @@ class App(Tk):
         self.scale = 20
         self.colors = [[0 for j in range(self.w)] for i in range(self.h)]
 
-        self.c = Canvas(self, width=self.w * self.scale, height=self.h * self.scale, bg='white')
-        self.c.bind("<Motion>", self.moveMouse)
+        self.c = Canvas(self, width=self.w * self.scale, height=self.h * self.scale)
+        self.createPixels()
+        self.c.bind("<B1-Motion>", self.mouseMoveB1)
+        self.c.bind("<B3-Motion>", self.mouseMoveB3)
         self.c.grid(column=0, row=0)
 
-        self.lbl = Label(self, text="Номер персептрона")
-        self.lbl.grid(column=1, row=0)
+        Label(self, text="Номер персептрона").grid(column=1, row=0)
 
-        thread_ = threading.Thread(target=self.mouseListener)
-        thread_.start()
+    def createPixels(self):
+        for i in range(self.w):
+            for j in range(self.h):
+                tag = "{}x{}".format(i, j)
+                print(tag)
+                self.c.create_rectangle(
+                    i * self.scale, j * self.scale,
+                    i * self.scale + self.scale, j * self.scale + self.scale,
+                    fill="white",
+                    tags=("pixel", tag)
+                )
 
-    def moveMouse(self, event):
-        self.mx = event.x / self.scale
-        self.my = event.y / self.scale
-        if self.mouse_press_left:
-            # self.paint(event)
-        elif self.mouse_press_right:
-            position = "(x={}, y={})".format(event.x, event.y)
-            print(event.type, "event", position)
+    def mouseMoveB1(self, event):
+        self.paint(int(event.x / self.scale), int(event.y / self.scale))
+
+    def mouseMoveB3(self, event):
+        self.paint(int(event.x / self.scale), int(event.y / self.scale))
 
     def mouseListener(self):
-        with mouse.Listener(on_click=self.onClick) as listener:
+        with mouse.Listener(
+            on_click=self.onClick
+        ) as listener:
             listener.join()
 
-    def onClick(self, x, y, button, pressed):
-        if button.name == 'left':
-            self.mouse_press_left = pressed
-            print("left")
-        elif button.name == 'right':
-            self.mouse_press_right = pressed
-            print("right")
+    def paint(self, x, y):
+        # print(self.c.find_overlapping(event.x - 0.5, event.y - 0.5, event.x + 0.5, event.y + 0.5)[-1])
+
+        main_rec_tag = "{}x{}".format(x, y)
+        print(main_rec_tag)
+        self.c.itemconfigure(main_rec_tag, fill="blue")
 
     # def paint(self, event):
     #     inputs = [0 for i in range(784)]
