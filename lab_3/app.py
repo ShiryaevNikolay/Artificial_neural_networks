@@ -1,5 +1,4 @@
 from tkinter import *
-import math
 
 
 class App(Tk):
@@ -12,7 +11,7 @@ class App(Tk):
         self.w = 28
         self.h = 28
         self.scale = 20
-        self.colors = [[1 for j in range(self.w)] for i in range(self.h)]
+        self.colors = [[0 for j in range(self.w)] for i in range(self.h)]
 
         self.c = Canvas(self, width=self.w * self.scale, height=self.h * self.scale)
         self.createPixels()
@@ -29,7 +28,7 @@ class App(Tk):
                 self.pixels[i].append(self.c.create_rectangle(
                     i * self.scale, j * self.scale,
                     i * self.scale + self.scale, j * self.scale + self.scale,
-                    fill="white"
+                    fill="black"
                 ))
 
     def mouseMoveB1(self, event):
@@ -49,9 +48,9 @@ class App(Tk):
                     dist = 1
                 dist *= dist
                 if mouse_press == "left":
-                    self.colors[i][j] -= 0.1 / dist
-                elif mouse_press == "right":
                     self.colors[i][j] += 0.1 / dist
+                elif mouse_press == "right":
+                    self.colors[i][j] -= 0.1 / dist
                 if self.colors[i][j] > 1:
                     self.colors[i][j] = 1
                 if self.colors[i][j] < 0:
