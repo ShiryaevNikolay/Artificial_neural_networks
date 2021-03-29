@@ -15,7 +15,7 @@ def create_h_file(h_file_path="../number_h"):
     h_file.close()
 
 
-def init_weight(id_perceptron, count, weight_file_path="../number_weight"):
+def init_weight_and_save_to_file(id_perceptron, count, weight_file_path="../number_weight"):
     weight_file = load_workbook(weight_file_path)
     weight_file.create_sheet(str(id_perceptron))
     sheet = weight_file.get_sheet_by_name(str(id_perceptron))

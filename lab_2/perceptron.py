@@ -13,7 +13,7 @@ class Perceptron:
         self.h = read_h(id_perceptron=self.id_perceptron, h_file_path=self.h_file_path)
         if not weight_sheet_exist(id_perceptron=self.id_perceptron, weight_file_path=self.weight_file_path):
             print("Инициализируем веса")
-            init_weight(id_perceptron=self.id_perceptron, count=length, weight_file_path=self.weight_file_path)
+            init_weight_and_save_to_file(id_perceptron=self.id_perceptron, count=length, weight_file_path=self.weight_file_path)
         self.weight = read_weight(id_perceptron=self.id_perceptron, count=length, weight_file_path=self.weight_file_path)  # Инициализируем веса для текущего персептрона
 
     # Функция обучения
