@@ -13,7 +13,7 @@ def init_weight_and_save_to_file(id_perceptron, count, weight_file_path="../mnis
     weight_file.create_sheet(str(id_perceptron))
     sheet = weight_file.get_sheet_by_name(str(id_perceptron))
     for i in range(count):
-        sheet.cell(row=i + 1, column=1).value = np.random.randint(-1, 1)
+        sheet.cell(row=i + 1, column=1).value = np.random.uniform(-1, 1)
     weight_file.save(weight_file_path)
     weight_file.close()
 

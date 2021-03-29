@@ -12,3 +12,6 @@ def load_data():
                 pixels = img.load()
                 for x, y in itertools.product(range(img.size[0]), range(img.size[1])):
                     training_data.append(pixels[x, y])
+                print(training_data)
+
+load_data()

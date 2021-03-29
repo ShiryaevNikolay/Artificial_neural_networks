@@ -1,5 +1,6 @@
 from func import *
 from functions.sigmoid import *
+from functions.relu import *
 from read_data import *
 from write_data import *
 
@@ -18,13 +19,11 @@ class Perceptron:
 
     """ Предсказание сети """
     def predict(self, input_data):
-        print(self.activation(np.dot(input_data, self.weight)))
-        return self.activation(np.dot(input_data, self.weight))
+        return self.activation(np.inner([i / 255 for i in input_data], self.weight))
 
     """ Обучение персептрона """
     def train(self, input_data, predict):
         u = [x - w for x, w in zip(input_data, self.weight)]
-        # print("WEIGHT: {}".format(self.weight))
         for i in range(len(self.weight)):
             self.weight[i] += u[i] * self.learning_rate * predict
 
