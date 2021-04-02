@@ -24,8 +24,8 @@ for i in range(10):  # По циклу заполняем слой персеп�
 # for number in range(len(X)):  # Пробегаем по каждому тренеровочному числу
 #     print("Для цифры {}".format(number))
 #     for i in range(10):  # Пробегаем по каждому персептрону
-#         layer[i].train(X=X[number], number=number, epochs=1000, speed_train=speed_train)  # Обучаем персептрон
-#         print("Персептрон #{}: {}".format(i, round(layer[i].get_answer(X[number]), 4)))
+#         layer_perceptron[i].train(X=X[number], number=number, epochs=1000, speed_train=speed_train)  # Обучаем персептрон
+#         print("Персептрон #{}: {}".format(i, round(layer_perceptron[i].get_answer(X[number]), 4)))
 # print("___________________Конец обучения___________________")
 
 noises = [3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23]  # Шумы

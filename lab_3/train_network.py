@@ -12,7 +12,7 @@ if not os.path.exists(weight_file_path):
 layer = []  # Слой персептронов
 
 for i in range(10):
-    layer.append(Perceptron(length=28*28, id_perceptron=i))
+    layer.append(Perceptron(length=28**2, id_perceptron=i))
 
 """ Тренеруем сеть """
 with zipfile.ZipFile("../mnist_train.zip", "r") as archive:
@@ -23,24 +23,20 @@ with zipfile.ZipFile("../mnist_train.zip", "r") as archive:
         with archive.open(filename) as file:
             img = Image.open(file)
             pixels = img.load()
-            for x, y in itertools.product(range(img.size[0]), range(img.size[1])):
-                training_data.append(pixels[x, y])
+            for x in range(img.size[0]):
+                training_data.append([])
+                for y in range(img.size[1]):
+                    training_data[x].append(pixels[x, y] / 255)
         print("Картинка {}".format(img_i))
         predict_win = 0
         perceptron_win = 0
-
         for i, perceptron in enumerate(layer):
             predict = perceptron.predict(training_data)
             if predict > predict_win:
                 predict_win = predict
                 perceptron_win = i
-        # for id_perceptron in range(len(layer)):
-        #     predict = layer[id_perceptron].predict(training_data)
-        #     # print("{} ".format(predict), end="")
-        #     if predict > predict_win:
-        #         predict_win = predict
-        #         perceptron_win = id_perceptron
+        print(perceptron_win)
         layer[perceptron_win].train(training_data, predict_win)
 
-for perceptron in layer:
-    perceptron.save_weight()
+# for perceptron in layer:
+#     perceptron.save_weight()

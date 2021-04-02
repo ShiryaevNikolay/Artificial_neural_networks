@@ -1,9 +1,12 @@
 import itertools
 from views.buttons import *
 from tkinter import *
+from perceptron import *
 
 
 class App(Tk):
+
+    weight_file_path = "../mnist_weight.xlsx"
 
     def __init__(self):
         super().__init__()
@@ -20,9 +23,13 @@ class App(Tk):
 
         self.bind("c", self.press_c)
 
-        fr_perceptron = Frame(self)
-        fr_perceptron.grid(column=1, row=2)
-        Label(fr_perceptron, text="Номер персептрона").grid(column=1, row=1)
+        self.layer_perceptron = []
+        # sheets_weight = get_sheets_weight(weight_file_path=self.weight_file_path)
+        for i in range(10):
+            self.layer_perceptron.append(Perceptron(length=28 ** 2, id_perceptron=i))
+
+        self.label_perceptron = []
+        self.create_info_perceptron()
 
     def create_canvas(self):
         self.c = Canvas(self, width=self.w * self.scale, height=self.h * self.scale)
@@ -38,17 +45,23 @@ class App(Tk):
         fr_info = Frame(self, highlightthickness=5)
         fr_info.grid(column=0, row=0)
 
+        fr_text = Frame(fr_info)
+        fr_text.grid(column=0, row=0)
+
         ''' Добавляем информацию о том, как рисовать '''
-        lkm_text = Label(fr_info, text="Рисовать: ЛКМ")
-        lkm_text.grid(column=0, row=0, padx=10, pady=5)
-        rkm_text = Label(fr_info, text="Стирать: ПКМ")
-        rkm_text.grid(column=0, row=1, padx=10, pady=5)
+        Label(fr_text, text="Рисовать: ЛКМ").grid(column=0, row=0, padx=10, pady=5)
+        Label(fr_text, text="Стирать: ПКМ").grid(column=0, row=1, padx=10, pady=5)
 
         ''' Добавляем кнопки '''
-        btn_clear = ButtonView(fr_info, "C: Очистить", _callback=self.clearCanvas)
-        btn_clear.grid(column=1, row=0, padx=10, pady=5)
-        btn_check = ButtonView(fr_info, "Проверить")
-        btn_check.grid(column=2, row=0, padx=10, pady=5)
+        ButtonView(fr_info, "C: Очистить", _callback=self.clearCanvas).grid(column=1, row=0, padx=10, pady=5)
+        ButtonView(self, "Узнать", _callback=self.get_predict).grid(column=1, row=0, padx=10, pady=5)
+
+    def create_info_perceptron(self):
+        fr_perceptron = Frame(self)
+        fr_perceptron.grid(column=1, row=2)
+        for i, perceptron in enumerate(self.layer_perceptron):
+            self.label_perceptron.append(Label(fr_perceptron, text="Перцептрон {}: ".format(perceptron.get_id())))
+            self.label_perceptron[i].grid(column=0, row=i, padx=10, pady=5)
 
     def createPixels(self):
         for i in range(self.w):
@@ -94,3 +107,15 @@ class App(Tk):
             self.colors[i][j] = 0
             color = (0 << 16) | (0 << 8) | 0
             self.c.itemconfigure(self.pixels[i][j], fill="#{0:06X}".format(color))
+
+    def get_predict(self):
+        predict_win = 0
+        perceptron_win = 0
+        for i, perceptron in enumerate(self.layer_perceptron):
+            predict = perceptron.predict(np.array(self.colors).flatten())
+            self.label_perceptron[i]['text'] = "Перцептрон {}: ".format(perceptron.get_id()) + str(round(predict, 2))
+            if predict > predict_win:
+                predict_win = predict
+                perceptron_win = i
+        print(perceptron_win)
+        self.layer_perceptron[perceptron_win].train(np.array(self.colors).flatten(), predict_win)
