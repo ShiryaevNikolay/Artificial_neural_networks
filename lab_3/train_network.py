@@ -38,5 +38,5 @@ with zipfile.ZipFile("../mnist_train.zip", "r") as archive:
         print(perceptron_win)
         layer[perceptron_win].train(training_data, predict_win)
 
-# for perceptron in layer:
-#     perceptron.save_weight()
+for perceptron in layer:
+    perceptron.save_weight()

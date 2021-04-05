@@ -1,6 +1,5 @@
 import itertools
 
-import matplotlib.pyplot as plt
 from func import *
 from functions.sigmoid import *
 from read_data import *
@@ -25,16 +24,31 @@ class Perceptron:
 
     """ Предсказание сети """
     def predict(self, input_data):
+        # sqrt_sum_weight = self.sqrt_sum(input_data)
+        # for i in range(len(input_data)):
+        #     for j in range(len(input_data[i])):
+        #         input_data[i][j] /= sqrt_sum_weight
         return self.activation(np.sum(np.multiply(input_data, self.weight)) + self.b)
 
     """ Обучение персептрона """
     def train(self, input_data, predict):
+        # sqrt_sum_weight = self.sqrt_sum(input_data)
+        # for i in range(len(input_data)):
+        #     for j in range(len(input_data[i])):
+        #         input_data[i][j] /= sqrt_sum_weight
         u = np.array(input_data) - np.array(self.weight)
         for i, j in itertools.product(range(len(input_data)), range(len(self.weight))):
             self.weight[i][j] += u[i][j] * self.learning_rate * predict
+        # sqrt_sum_weight = self.sqrt_sum(self.weight)
+        # for i, j in itertools.product(range(28), range(28)):
+        #     self.weight[i][j] /= sqrt_sum_weight
 
     def save_weight(self):
         write_weight(id_perceptron=self.id_perceptron, weights=self.weight, weight_file_path=self.weight_file_path)
 
-    def answer(self):
-        pass
+    def sqrt_sum(self, input_data):
+        sum = 0
+        for row in input_data:
+            for data in row:
+                sum += data**2
+        return np.sqrt(sum)

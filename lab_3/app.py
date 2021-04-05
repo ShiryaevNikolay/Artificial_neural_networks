@@ -112,10 +112,10 @@ class App(Tk):
         predict_win = 0
         perceptron_win = 0
         for i, perceptron in enumerate(self.layer_perceptron):
-            predict = perceptron.predict(np.array(self.colors).flatten())
+            predict = perceptron.predict(self.colors)
             self.label_perceptron[i]['text'] = "Перцептрон {}: ".format(perceptron.get_id()) + str(round(predict, 2))
             if predict > predict_win:
                 predict_win = predict
                 perceptron_win = i
         print(perceptron_win)
-        self.layer_perceptron[perceptron_win].train(np.array(self.colors).flatten(), predict_win)
+        self.layer_perceptron[perceptron_win].train(self.colors, predict_win)

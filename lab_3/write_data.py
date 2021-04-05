@@ -14,7 +14,7 @@ def init_weight_and_save_to_file(id_perceptron, count, weight_file_path="../mnis
     sheet = weight_file.get_sheet_by_name(str(id_perceptron))
     for i in range(28):
         for j in range(28):
-            sheet.cell(row=i + 1, column=j + 1).value = np.random.uniform(-1, 1)
+            sheet.cell(row=i + 1, column=j + 1).value = np.random.uniform(0, 1)
     weight_file.save(weight_file_path)
     weight_file.close()
 
