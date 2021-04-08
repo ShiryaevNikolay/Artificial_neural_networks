@@ -35,7 +35,7 @@ with zipfile.ZipFile("../mnist_train.zip", "r") as archive:
             if predict > predict_win:
                 predict_win = predict
                 perceptron_win = i
-        print(perceptron_win)
+        print("Отреагировал класс: ".format(perceptron_win))
         layer[perceptron_win].train(training_data, predict_win)
 
 for perceptron in layer:

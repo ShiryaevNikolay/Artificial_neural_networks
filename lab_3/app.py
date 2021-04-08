@@ -113,9 +113,9 @@ class App(Tk):
         perceptron_win = 0
         for i, perceptron in enumerate(self.layer_perceptron):
             predict = perceptron.predict(self.colors)
-            self.label_perceptron[i]['text'] = "Перцептрон {}: ".format(perceptron.get_id()) + str(round(predict, 2))
+            self.label_perceptron[i]['text'] = "Класс {}: ".format(perceptron.get_id()) + str(round(predict, 2))
             if predict > predict_win:
                 predict_win = predict
                 perceptron_win = i
-        print(perceptron_win)
+        print("Отреагировал класс: ".format(perceptron_win))
         self.layer_perceptron[perceptron_win].train(self.colors, predict_win)
