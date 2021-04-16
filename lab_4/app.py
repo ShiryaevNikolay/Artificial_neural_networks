@@ -1,6 +1,4 @@
-from tkinter import *
-from comparison import *
-from recognition import *
+from lab_4.art import ART
 from views.buttons import *
 
 
@@ -25,10 +23,11 @@ class App(Tk):
         self.main_canvas.bind("<B3-Motion>", self.mouse_move_b3)
         self.main_canvas.grid(column=0, row=2)
 
-        # Слой распознавания
-        self.layer_recognition = [Recognition()]
-        # Слой сравнения
-        self.layer_comparison = [Comparison() for i in range(self.w * self.h)]
+        self.art = ART()
+        # # Слой распознавания
+        # self.layer_recognition = [Recognition()]
+        # # Слой сравнения
+        # self.layer_comparison = [Comparison() for i in range(self.w * self.h)]
 
     def create_button(self):
         fr_button = Frame(self, highlightthickness=5)
@@ -36,7 +35,8 @@ class App(Tk):
         ButtonView(fr_button, "Расчитать", _callback=self.click_button).grid(column=0, row=0)
 
     def click_button(self):
-        print(self.main_colors)
+        # print(self.main_colors)
+        self.art.work(self.main_colors)
 
     def create_canvas(self, root, colors, pixels, scale):
         canvas = Canvas(root, width=self.w * scale, height=self.h * scale)
