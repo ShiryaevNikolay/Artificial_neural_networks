@@ -1,10 +1,17 @@
 class ResetBlock:
     def __init__(self):
         self.p = 0.5
+        self.c = [0 for i in range(8**2)]
 
-    def reset_result(self, input_c):
+    def get_c(self):
+        return self.c
+
+    def reset_result(self, input_x, input_c):
+        self.c = input_c
         sum_c = sum(input_c)
-        if sum_c <= self.p:
-            return 1
+        sum_x = sum(input_x)
+        s = sum_c / sum_x
+        if s > self.p:
+            return True
         else:
-            return 0
+            return False
