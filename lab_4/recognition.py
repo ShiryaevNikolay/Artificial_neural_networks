@@ -8,10 +8,10 @@ class Recognition:
         self.t = [1 for i in range(8**2)]
         self.b = [np.random.randint(0, 2 / (2 - 1 + self.m)) for i in range(8**2)]
 
-    def get_r(self):
+    def get_t(self):
         return self.t
 
-    def calculate_result(self, input_c):
+    def calculate_r(self, input_c):
         net = np.dot(self.b, input_c)
         return net
 

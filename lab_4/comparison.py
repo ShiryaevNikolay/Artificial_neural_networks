@@ -1,7 +1,5 @@
 # Нейрон для слоя сравнения
 class Comparison:
-    def __init__(self):
-        pass
 
     def result(self, receiver, recognition, input_x):
         if (receiver == 1 and recognition == 1) \
