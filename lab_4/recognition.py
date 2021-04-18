@@ -6,7 +6,7 @@ class Recognition:
     def __init__(self):
         self.m = 8**2
         self.t = [1 for i in range(8**2)]
-        self.b = [np.random.randint(0, 2 / (2 - 1 + self.m)) for i in range(8**2)]
+        self.b = [np.random.uniform(0, 2 / (2 - 1 + self.m)) for i in range(8**2)]
 
     def get_t(self):
         return self.t
@@ -15,7 +15,7 @@ class Recognition:
         net = np.dot(self.b, input_c)
         return net
 
-    def lern(self, input_c):
+    def learn(self, input_c):
         sum_c = sum(input_c)
         # Обучаем вектор весов T
         self.t = input_c

@@ -2,8 +2,6 @@
 class Comparison:
 
     def result(self, receiver, recognition, input_x):
-        if (receiver == 1 and recognition == 1) \
-                or (receiver == 1 and input_x == 1) \
-                or (recognition == 1 and input_x == 1):
+        if receiver == recognition == 1 or receiver == input_x == 1 or recognition == input_x == 1:
             return 1
         return 0
