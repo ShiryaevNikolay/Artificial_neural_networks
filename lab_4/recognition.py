@@ -5,7 +5,7 @@ import numpy as np
 class Recognition:
     def __init__(self):
         self.m = 8**2
-        self.t = [1 for i in range(8**2)]
+        self.t = [0 for i in range(8**2)]
         self.b = [np.random.uniform(0, 2 / (2 - 1 + self.m)) for i in range(8**2)]
 
     def get_t(self):

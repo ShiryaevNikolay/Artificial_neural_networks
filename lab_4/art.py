@@ -25,29 +25,29 @@ class ART:
 
         # Если фаза инициализации
         if self.init_state:
-            t = [0 for i in range(8**2)]
+            self.receiver_1.calculate_g1(input_x, self.layer_recognition[0].get_t())
 
             # Получаем выходной вектор C
             output_c = []
-            for i, neuron in enumerate(self.layer_comparison):
-                output_c.append(neuron.result(self.receiver_1.get_g1(), t[i], input_x[i]))
+            for i, recognition in enumerate(self.layer_comparison):
+                output_c.append(recognition.result(self.receiver_1.get_g1(), self.layer_recognition[0].get_t()[i], input_x[i]))
 
             # Распознавание
             net_win = 0
             recognition_win = 0
-            for i, neuron in enumerate(self.layer_recognition):
-                net = neuron.calculate_r(output_c)
+            for i, recognition in enumerate(self.layer_recognition):
+                net = recognition.calculate_r(output_c)
                 if net > net_win:
                     net_win = net
                     recognition_win = i
 
             # Устанавливаем выход Приемника 1 G1 равным 1
-            self.receiver_1.calculate_g1(input_x, [0])
+            self.receiver_1.calculate_g1(input_x, self.layer_recognition[recognition_win].get_t())
 
             # Получаем выходной вектор C
             output_c = []
-            for i, neuron in enumerate(self.layer_comparison):
-                output_c.append(neuron.result(self.receiver_1.get_g1(), t[i], input_x[i]))
+            for i, comparison in enumerate(self.layer_comparison):
+                output_c.append(comparison.result(self.receiver_1.get_g1(), self.layer_recognition[recognition_win].get_t()[i], input_x[i]))
 
             # Сравнение
             reset = self.reset_bloc.reset_result(input_x, output_c)

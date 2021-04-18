@@ -2,7 +2,7 @@
 # Приемник 1
 class Receiver1:
     def __init__(self):
-        self.g1 = 1
+        self.g1 = 0
 
     def get_g1(self):
         return self.g1
