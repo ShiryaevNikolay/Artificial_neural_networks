@@ -33,6 +33,8 @@ class App(Tk):
         self.images_fr = Frame(self, highlightthickness=5)
         self.images_fr.grid(column=0, row=2)
 
+        self.canvas_images = []
+
         self.art = ART()
 
     def create_button(self):
@@ -42,18 +44,30 @@ class App(Tk):
 
     def click_button(self):
         input_x = np.array(self.main_colors).flatten()
-        new_image = self.art.work(input_x)
-        pixels_im = []
-        self.create_canvas(self.images_fr, new_image, pixels_im, self.scale).grid(column=self.images_pos_col, row=self.images_pos_row)
+        create_image, new_image, neuron_index = self.art.work(input_x)
 
-        if self.images_pos_col == 5:
-            self.images_pos_col = 0
-            self.images_pos_row += 1
+        pixels_im = []
+
+        if create_image:
+            new_canvas = self.create_canvas(self.images_fr, new_image, pixels_im, self.scale)
+            new_canvas.grid(column=self.images_pos_col, row=self.images_pos_row)
+
+            self.canvas_images.append(new_canvas)
+
+            if self.images_pos_col == 5:
+                self.images_pos_col = 0
+                self.images_pos_row += 1
+            else:
+                self.images_pos_col += 1
         else:
-            self.images_pos_col += 1
+            self.update_canvas(self.canvas_images[neuron_index], new_image, pixels_im, self.scale)
 
     def create_canvas(self, root, colors, pixels, scale):
         canvas = Canvas(root, width=self.w * scale, height=self.h * scale)
+        self.create_pixels(canvas, colors, pixels, scale)
+        return canvas
+
+    def update_canvas(self, canvas, colors, pixels, scale):
         self.create_pixels(canvas, colors, pixels, scale)
         return canvas
 
