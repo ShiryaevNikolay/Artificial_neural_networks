@@ -8,7 +8,7 @@ class ART:
     def __init__(self):
 
         # Слой распознавания
-        self.layer_recognition = [Recognition()]
+        self.layer_recognition = []
 
         # Слой сравнения
         self.layer_comparison = [Comparison() for i in range(8**2)]
@@ -24,33 +24,6 @@ class ART:
     def work(self, input_x):
 
         new_image = True
-
-        # Если фаза инициализации
-        if self.init_state:
-            self.receiver_1.calculate_g1(input_x, self.layer_recognition[0].get_t())
-
-            # Получаем выходной вектор C
-            output_c = []
-            for i, recognition in enumerate(self.layer_comparison):
-                output_c.append(recognition.result(self.receiver_1.get_g1(), self.layer_recognition[0].get_t()[i], input_x[i]))
-
-            # Распознавание
-            recognition_win = self.phase_recognition(output_c)
-
-            # Устанавливаем выход Приемника 1 G1 равным 1
-            self.receiver_1.calculate_g1(input_x, self.layer_recognition[recognition_win].get_t())
-
-            # Получаем выходной вектор C
-            output_c = self.calculate_c(input_x, recognition_win)
-
-            # Сравнение
-            reset = self.reset_bloc.reset_result(input_x, output_c)
-
-            if not reset:
-                self.layer_recognition[recognition_win].learn(output_c)
-
-            self.init_state = False
-            return new_image, self.layer_recognition[recognition_win].get_t(), recognition_win
 
         blocked_neurons = []
 
